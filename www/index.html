@@ -110,7 +110,7 @@
                 // Resize project's bar
                 function onResize()
                 {
-                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 70;
+                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 60;
                     $("#content #projects-page .project .title").css('width', titleWidth);
                 }
 
@@ -187,8 +187,6 @@
                         clock[id] += current[id];
                         clearInterval( timer[id] );
                         timer[id] = null;
-
-                        console.log( clock[id], current[id], start[id]);
 
                         // Save project's time
                         localStorage.setItem('counter-'+id, $('#counter-'+id).find('.time').text());

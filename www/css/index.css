@@ -130,6 +130,10 @@ h2 {
     background: #0c5d41 !important;
 }
 
+.ui-content {
+    padding: 15px 5px !important;
+}
+
 #header #today {
     text-align: center;
 }
@@ -228,7 +232,7 @@ h2 {
 }
 
 #footer {
-    margin: 0 15px;
+    margin: 0 5px;
     text-align: center;
 }
 
@@ -262,16 +266,36 @@ h2 {
 }
 
 #footer .adsbygoogle {
-    width: 320px;
+    width: 300px;
     height: 50px;
     border: 1px solid #CCC;
     padding: 2px;
 }
 
-@media(min-width: 500px) { .andcounting { width: 468px; height: 60px; } }
-@media(min-width: 800px) { .andcounting { width: 728px; height: 90px; } }
-
 #footer a {
     color: white;
     text-shadow: none
 }
+
+@media(min-width: 500px) {
+    .andcounting {
+        width: 468px;
+        height: 60px;
+    }
+
+    #footer {
+        margin: 0 15px;
+    }
+
+    .ui-content {
+        padding: 15px !important;
+    }
+}
+
+@media(min-width: 800px) {
+    .andcounting {
+        width: 728px;
+        height: 90px;
+    }
+}
+
