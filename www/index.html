@@ -90,15 +90,15 @@
                     if( month < 10 )
                         month = "0" + month;
 
-                    var year = d.getFullYear();
+                    var year = String(d.getFullYear());
 
                     $('#today').html( day + "." + month + "." + year );
                     $('#content #report-page #from-day').val(day);
                     $('#content #report-page #from-month').val(month);
-                    $('#content #report-page #from-year').val(year);
+                    $('#content #report-page #from-year').val(year.slice(-2));
                     $('#content #report-page #to-day').val(day);
                     $('#content #report-page #to-month').val(month);
-                    $('#content #report-page #to-year').val(year);
+                    $('#content #report-page #to-year').val(year.slice(-2));
 
                     // Create the sliders
                     for( var i = 0; i < 10; i++ )
@@ -115,6 +115,7 @@
                 }
 
                 init();
+                updateEmail();
 
                 // Save the project name
                 $('#content #projects-page .title').on('change', function()
@@ -211,19 +212,33 @@
                     $(this).hide();
                     $('#content #projects-page').show();
                     $('#footer #report').show();
+                    onResize();
                 });
 
-                $('#footer #send').click(function()
+                $('#content #report-page input').on('change', function()
                 {
-                    var from = $('#content #report-page #from-day').val() + "/" + $('#content #report-page #from-month').val() + "/" + $('#content #report-page #from-year').val();
-                    var to = $('#content #report-page #to-day').val() + "/" + $('#content #report-page #to-month').val() + "/" + $('#content #report-page #to-year').val();
-                    var body = "test";
-                    var email = "mailto:" + $('#content #report-page #email-field').val() + "&amp;subject=AndCounting Report from " + from + " until " + to + "&amp;body=" + body;
-
-                    console.log(email);
-
-                    window.location.href = email;
+                    updateEmail();
+                    return false;
                 });
+
+                function updateEmail()
+                {
+                    var from = $('#content #report-page #from-day').val() + "." + $('#content #report-page #from-month').val() + "." + $('#content #report-page #from-year').val();
+                    var to = $('#content #report-page #to-day').val() + "." + $('#content #report-page #to-month').val() + "." + $('#content #report-page #to-year').val();
+                    var body = "";
+
+                    $("#content .project").each(function( index )
+                    {
+                        var projectName = $(this).find('.title').val();
+                        var projectTime = $(this).find('.time').text();
+
+                        if( projectName ) body += projectName + ": " + projectTime + "%0D%0A";
+                    });
+
+                    var email = "mailto:?subject=AndCounting Report from " + from + " until " + to + "&body=" + body;
+
+                    $('#footer #send a').attr('href', email);
+                }
 
                 $(window).on('resize', function()
                 {
@@ -256,16 +271,16 @@
                     <input type="text" name="to-month" id="to-month" class="date-field" placeholder="M" />
                     <input type="text" name="to-year" id="to-year" class="date-field" placeholder="Y" />
                 </div>
-                <h3>Email Address</h3>
+                <!--h3>Email Address</h3>
                 <div class="clearfix">
                     <input type="text" name="email" id="email-field" />
-                </div>
+                </div-->
             </div>
         </div>
 
         <div id="footer">
             <div id="report" class="button"><a href="javascript:void(0);">Create Report</a></div>
-            <div id="send" class="button"><a href="javascript:void(0);">Send</a></div>
+            <div id="send" class="button"><a href="javascript:void(0);" target="_blank">Send</a></div>
             <div id="cancel" class="button"><a href="javascript:void(0);">Cancel</a></div>
 
             <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
