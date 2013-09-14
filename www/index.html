@@ -110,7 +110,7 @@
                 // Resize project's bar
                 function onResize()
                 {
-                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 60;
+                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 70;
                     $("#content #projects-page .project .title").css('width', titleWidth);
                 }
 
@@ -211,6 +211,18 @@
                     $(this).hide();
                     $('#content #projects-page').show();
                     $('#footer #report').show();
+                });
+
+                $('#footer #send').click(function()
+                {
+                    var from = $('#content #report-page #from-day').val() + "/" + $('#content #report-page #from-month').val() + "/" + $('#content #report-page #from-year').val();
+                    var to = $('#content #report-page #to-day').val() + "/" + $('#content #report-page #to-month').val() + "/" + $('#content #report-page #to-year').val();
+                    var body = "test";
+                    var email = "mailto:" + $('#content #report-page #email-field').val() + "&amp;subject=AndCounting Report from " + from + " until " + to + "&amp;body=" + body;
+
+                    console.log(email);
+
+                    window.location.href = email;
                 });
 
                 $(window).on('resize', function()
