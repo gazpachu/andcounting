@@ -20,23 +20,24 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+h1,h2,h3,h4,h5 { font-weight: normal; } /* IE7 */
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    background-color:#0c5d41;
     font-size:12px;
     height:100%;
     margin:0px;
@@ -70,10 +71,21 @@ body {
 }
 
 h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
+    background: url(../img/logo_min.png) no-repeat;
+    width: 35px;
+    height: 52px;
+    position: absolute;
+    margin: 0;
+    top: 8px;
+    left: 0;
+}
+
+h2 {
+    font-family: 'PT Mono', sans-serif;
+    font-size:36px;
+    color: white;
+    margin-top: 13px;
+    margin-bottom: 0;
     padding:0px;
     text-align:center;
 }
@@ -114,11 +126,176 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-form {
+.ui-page {
+    background: #0c5d41 !important;
+}
+
+.ui-content {
+    padding: 15px 5px !important;
+}
+
+#header #today {
+    text-align: center;
+}
+
+#content #projects-page .project,
+#footer .button {
+    background: #faee86;
+    border: 1px solid #555;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 5px;
+    height: 37px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+    box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+}
+
+#content #projects-page .project .ui-input-text {
+    margin-top: 1px;
+    float: left;
+    background: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    color: #333;
+}
+
+#content #projects-page .project .ui-slider-switch {
+    margin: 0;
+    margin-top: 2px;
+    margin-right: 10px;
     float: right;
 }
 
-.ui-btn-text {
-    vertical-align: middle;
-    height: 50px;
+#content #projects-page .project .ui-btn-active {
+    background: #ff6600;
+    text-shadow: #333;
+    -webkit-box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
+    box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
 }
+
+#content #projects-page .project .ui-slider-label-b {
+    text-indent: 1.8em !important;
+}
+
+#content #projects-page .project .counter {
+    float: right;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+#content #projects-page .project .counter span {
+    text-transform: capitalize;
+    display: block;
+}
+
+#content #projects-page .project .counter .time {
+    font-size: 1.3em;
+}
+
+#content #projects-page .project .counter .time-text {
+    font-size: 0.7em;
+}
+
+#content #report-page {
+    color: white;
+    text-shadow: none;
+    display: none;
+}
+
+#content #report-page .ui-input-text {
+    background: #2a6d56;
+    border: none;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    float: left;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#content #report-page .ui-input-text input {
+    background: none;
+    color: white;
+    width: 40px;
+    font-size: 3em;
+    margin: 0;
+    padding: 0 2px;
+}
+
+#content #report-page .ui-input-text #email-field {
+    width: 100%;
+    font-size: 1.8em;
+    padding: 6px;
+}
+
+#footer {
+    margin: 0 5px;
+    text-align: center;
+}
+
+#footer .button {
+    font-family: 'PT Mono', sans-serif;
+    background: #fc7616;
+    color: white;
+    font-size: 2em;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    background: #fc7616;
+    color: white;
+}
+
+#footer #send,
+#footer #cancel {
+    width: 46%;
+    float: left;
+    display: none;
+}
+
+#footer #cancel {
+    float: right;
+}
+
+#footer div a {
+    padding-top: 5px;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+}
+
+#footer .adsbygoogle {
+    width: 300px;
+    height: 50px;
+    border: 1px solid #CCC;
+    padding: 2px;
+}
+
+#footer a {
+    color: white;
+    text-shadow: none
+}
+
+@media(min-width: 500px) {
+    .andcounting {
+        width: 468px;
+        height: 60px;
+    }
+
+    #footer {
+        margin: 0 15px;
+    }
+
+    .ui-content {
+        padding: 15px !important;
+    }
+}
+
+@media(min-width: 800px) {
+    .andcounting {
+        width: 728px;
+        height: 90px;
+    }
+}
+

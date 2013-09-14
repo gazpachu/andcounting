@@ -21,55 +21,281 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet"  href="css/jquery.mobile-1.3.2.min.css">
-        <link rel="shortcut icon" href="images/favicon.ico">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <link rel="shortcut icon" href="images/favicon.png">
+        <link href='http://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
         <script src="js/jquery.js"></script>
         <script src="js/jquery.mobile-1.3.2.min.js"></script>
         <title>AndCounting</title>
+        <script>
+
+            $(document).ready(function()
+            {
+                var totalProjects = 0;
+                var clock = new Array(); // stores the time recorded
+                var timer = new Array();
+                var start = new Array();
+                var current = new Array();
+
+                function addProject()
+                {
+                    totalProjects++;
+
+                    // Check if there's a project and time stored in this row
+                    var projectName = localStorage.getItem('title-'+totalProjects) || '';
+                    var projectTime = localStorage.getItem('counter-'+totalProjects);
+                    var projectTimeClock = localStorage.getItem('counter-'+totalProjects+'-clock');
+                    var projectTimeStart = localStorage.getItem('counter-'+totalProjects+'-start');
+
+                    if( projectTime )
+                    {
+                        clock[totalProjects] = Number(projectTimeClock);
+                        start[totalProjects] = Number(projectTimeStart);
+                    }
+                    else
+                    {
+                        projectTime = '000.00.00.00';
+                        clock[totalProjects] = null;
+                        start[totalProjects] = 0;
+                    }
+
+                    var output = "<div class='project' id='project-"+totalProjects+"'> \
+                                    <input type='text' class='title' name='title-"+totalProjects+"' id='title-"+totalProjects+"' placeholder='Tap to rename...' value='"+projectName+"' /> \
+                                    <div class='counter' id='counter-"+totalProjects+"'><span class='time'>"+projectTime+"</span><span class='time-text'>Days&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins&nbsp;&nbsp;Secs</span></div> \
+                                    <select name='flip-"+totalProjects+"' id='flip-"+totalProjects+"' data-counter='"+totalProjects+"' class='flip' data-role='slider'> \
+                                        <option value='off'>OFF</option> \
+                                        <option value='on'>ON</option> \
+                                    </select> \
+                                </div>";
+
+                    $("#content #projects-page").append(output);
+                    $("#content #projects-page #project-"+totalProjects).trigger("create");
+                    onResize();
+
+                    timer[totalProjects] = null;
+                    current[totalProjects] = 0;
+                }
+
+                // Initialise the app and create placeholders
+                function init()
+                {
+                    // Header clock and report dates
+                    var d = new Date();
+                    var day = d.getDate()
+                    if( day < 10 )
+                        day = "0" + day;
+                    var month = d.getMonth()+1
+                    if( month < 10 )
+                        month = "0" + month;
+
+                    var year = String(d.getFullYear());
+
+                    $('#today').html( day + "." + month + "." + year );
+                    $('#content #report-page #from-day').val(day);
+                    $('#content #report-page #from-month').val(month);
+                    $('#content #report-page #from-year').val(year.slice(-2));
+                    $('#content #report-page #to-day').val(day);
+                    $('#content #report-page #to-month').val(month);
+                    $('#content #report-page #to-year').val(year.slice(-2));
+
+                    // Create the sliders
+                    for( var i = 0; i < 10; i++ )
+                    {
+                        addProject();
+                    }
+                }
+
+                // Resize project's bar
+                function onResize()
+                {
+                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 70;
+                    $("#content #projects-page .project .title").css('width', titleWidth);
+                }
+
+                init();
+                updateEmail();
+
+                // Save the project name
+                $('#content #projects-page .title').on('change', function()
+                {
+                    localStorage.setItem(this.name, $(this).val());
+                });
+
+                // Update counters
+                $('#content #projects-page .flip').on('change', function()
+                {
+                    var id = $(this).attr('data-counter');
+                    
+                    if( this.value == 'on' && timer[id] == null )
+                    {
+                        start[id] = new Date().getTime();
+            
+                        // Start timer
+                        timer[id] = setInterval(function()
+                        {
+                            var newTime = new Date().getTime();    
+                            var ms = newTime - start[id];
+                            
+                            current[id] = ms;
+
+                            var total_seconds = (clock[id] + ms) / 1000;
+                            
+                            var minutes = Math.floor(total_seconds / 60);
+                            var hours = Math.floor(minutes / 60);
+                            var days = Math.floor(hours / 24);
+                            var seconds = total_seconds - (minutes * 60) - 0.499;
+                            //499miliseconds subtracted before rounding up in the interest of accuracy
+                    
+                            var output = "";
+                            var project = $("#project-"+id);
+                            
+                            if( days < 100 && days > 10 )
+                                output += "0" + days;
+                            else if( days < 10 )
+                                output += "00" + days;
+                            else
+                                output += days;
+
+                            output += ".";
+                            
+                            if( hours < 10 )
+                                output += "0" + hours;
+                            else
+                                output += hours;
+                                
+                            output += ".";
+                         
+                            if( minutes < 10 )
+                                output += "0" + minutes;
+                            else
+                                output += minutes;
+                            
+                            output += ".";
+                    
+                            if( Math.round(seconds) < 10 )
+                                output += "0" + Math.round(seconds);
+                            else
+                                output += Math.round(seconds);
+                            
+                            $(project).find('.time').html(output);
+
+                        }, 1000);
+                    }
+                    else if( this.value == 'off' && timer[id] != null )
+                    {
+                        clock[id] += current[id];
+                        clearInterval( timer[id] );
+                        timer[id] = null;
+
+                        // Save project's time
+                        localStorage.setItem('counter-'+id, $('#counter-'+id).find('.time').text());
+                        localStorage.setItem('counter-'+id+'-clock', clock[id]);
+                        localStorage.setItem('counter-'+id+'-start', start[id]);
+                    }
+                });
+
+                $('#footer #report').click(function()
+                {
+                    $('#content #projects-page').hide();
+                    $(this).hide();
+                    $('#content #report-page').show();
+                    $('#footer #send').show();
+                    $('#footer #cancel').show();
+                });
+
+                $('#footer #cancel').click(function()
+                {
+                    $('#content #report-page').hide();
+                    $('#footer #send').hide();
+                    $(this).hide();
+                    $('#content #projects-page').show();
+                    $('#footer #report').show();
+                    onResize();
+                });
+
+                $('#content #report-page input').on('change', function()
+                {
+                    updateEmail();
+                    return false;
+                });
+
+                function updateEmail()
+                {
+                    var from = $('#content #report-page #from-day').val() + "." + $('#content #report-page #from-month').val() + "." + $('#content #report-page #from-year').val();
+                    var to = $('#content #report-page #to-day').val() + "." + $('#content #report-page #to-month').val() + "." + $('#content #report-page #to-year').val();
+                    var body = "";
+
+                    $("#content .project").each(function( index )
+                    {
+                        var projectName = $(this).find('.title').val();
+                        var projectTime = $(this).find('.time').text();
+
+                        if( projectName ) body += projectName + ": " + projectTime + "%0D%0A";
+                    });
+
+                    var email = "mailto:?subject=AndCounting Report from " + from + " until " + to + "&body=" + body;
+
+                    $('#footer #send a').attr('href', email);
+                }
+
+                $(window).on('resize', function()
+                {
+                    onResize();
+                });
+            });            
+
+        </script>
     </head>
     <body>
-        <div data-role="content" class="jqm-content">
-
-            <h1>AndCounting</h1>
-
-            <div data-demo-html="true">
-                <div data-role="collapsible-set" data-content-theme="c">
-                    <div data-role="collapsible" data-theme="b" data-content-theme="b">
-                        <h3>Project 1
-                            <form>
-                                <select name="flip-1" id="flip-1" data-role="slider">
-                                    <option value="off">Off</option>
-                                    <option value="on">On</option>
-                                </select>
-                            </form>
-                        </h3>
-                        <p>Collapsible content, swatch "b"</p>
-                    </div>
-                    <div data-role="collapsible" data-theme="a" data-content-theme="a">
-                        <h3>Section header, swatch A</h3>
-                        <p>Collapsible content, swatch "a"</p>
-                    </div>
-                    <div data-role="collapsible" data-theme="e" data-content-theme="d">
-                        <h3>Section header, swatch E</h3>
-                        <p>Collapsible content, swatch "d"</p>
-                    </div>
-                </div>
-            </div>
-
+        
+        <div id="header">
+            <h1></h1>
+            <h2 id="today"></h2>
         </div>
 
-        <script>
-            var val = 'on';
-            $('#flip-1').change(function() {
-                if(val!==$(this).val()){
-                    console.log($(this).val());
-                }
-                val = $(this).val();
-            });
-        </script>
+        <div id="content" data-role="content">
+            <div id="projects-page"></div>
+            <div id="report-page">
+                <h3>Customise Report</h3>
+                <h3>FROM</h3>
+                <div class="clearfix">
+                    <input type="text" name="from-day" id="from-day" class="date-field" placeholder="D" />
+                    <input type="text" name="from-month" id="from-month" class="date-field" placeholder="M" />
+                    <input type="text" name="from-year" id="from-year" class="date-field" placeholder="Y" />
+                </div>
+                <h3>TO</h3>
+                <div class="clearfix">
+                    <input type="text" name="to-day" id="to-day" class="date-field" placeholder="D" />
+                    <input type="text" name="to-month" id="to-month" class="date-field" placeholder="M" />
+                    <input type="text" name="to-year" id="to-year" class="date-field" placeholder="Y" />
+                </div>
+                <!--h3>Email Address</h3>
+                <div class="clearfix">
+                    <input type="text" name="email" id="email-field" />
+                </div-->
+            </div>
+        </div>
+
+        <div id="footer">
+            <div id="report" class="button"><a href="javascript:void(0);">Create Report</a></div>
+            <div id="send" class="button"><a href="javascript:void(0);" target="_blank">Send</a></div>
+            <div id="cancel" class="button"><a href="javascript:void(0);">Cancel</a></div>
+
+            <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- AndCounting -->
+            <ins class="adsbygoogle andcounting"
+                 style="display:inline-block"
+                 data-ad-client="ca-pub-9303292556158915"
+                 data-ad-slot="7593881014"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <p>
+                <a href="#">Get AndCounting without ads and unlimited counters for JUST <strike>3.99$</strike> 0.99$!</a>
+            </p>
+        </div>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>

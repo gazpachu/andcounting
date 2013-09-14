@@ -1,4 +1,4 @@
-C:\Dev\Web\htdocs\andcounting\platforms\android\gen\com\slowlori\andcounting\R.java \
+C:\Dev\Web\htdocs\andcounting\platforms\android\gen\com\webmarket\andcounting\R.java \
  : C:\Dev\Web\htdocs\andcounting\platforms\android\res\drawable\icon.png \
 C:\Dev\Web\htdocs\andcounting\platforms\android\res\drawable-hdpi\icon.png \
 C:\Dev\Web\htdocs\andcounting\platforms\android\res\drawable-hdpi\ic_launcher.png \

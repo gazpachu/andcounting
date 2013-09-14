@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.slowlori.andcounting" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.webmarket.andcounting" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>AndCounting</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        AndCounting is a stop-watch timesheet tool with a user-friendly and uncluttered interface. The app allows users to create projects and monitor the hours spent working on each project using a slide button to start and stop the clock. The user can then export the hours clocked in by tapping on the "Create Report" button. The user simply customizes the report by selecting the transaction period and the report will be send to the specified recipient. Projects can be renamed by tapping in the placeholder. The app is fully functional in the free and paid version. The paid version does not include ads and allows the user to add unlimited projects. 
     </description>
-    <author email="dev@callback.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="info@webmarket.es" href="http://webmarket.es">
+        Webmarket.es
     </author>
     <access origin="*" />
     <preference name="fullscreen" value="true" />

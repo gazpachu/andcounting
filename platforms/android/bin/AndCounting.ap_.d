@@ -40,6 +40,7 @@ C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\css\images\icons-18-w
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\css\images\icons-36-black.png \
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\css\images\icons-36-white.png \
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\img\logo.png \
+C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\img\logo_min.png \
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\js\index.js \
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\js\jquery.js \
 C:\Dev\Web\htdocs\andcounting\platforms\android\assets\www\js\jquery.mobile-1.3.2.min.js \
