@@ -51,8 +51,8 @@
                                     </select> \
                                 </div>";
 
-                    $("#content").append(output);
-                    $("#project-"+totalProjects).trigger("create");
+                    $("#content #projects-page").append(output);
+                    $("#content #projects-page #project-"+totalProjects).trigger("create");
                     onResize();
 
                     clock[totalProjects] = 0;
@@ -72,7 +72,15 @@
                     if( month < 10 )
                         month = "0" + month;
 
-                    $('#today').html( day + "." + month + "." + d.getFullYear() );
+                    var year = d.getFullYear();
+
+                    $('#today').html( day + "." + month + "." + year );
+                    $('#content #report-page #from-day').val(day);
+                    $('#content #report-page #from-month').val(month);
+                    $('#content #report-page #from-year').val(year);
+                    $('#content #report-page #to-day').val(day);
+                    $('#content #report-page #to-month').val(month);
+                    $('#content #report-page #to-year').val(year);
 
                     // Create the sliders
                     for( var i = 0; i < 10; i++ )
@@ -83,14 +91,14 @@
 
                 function onResize()
                 {
-                    var titleWidth = $("#content").width() - $(".counter").width() - $(".flip").width() - 70;
-                    $(".title").css('width', titleWidth);
+                    var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 70;
+                    $("#content #projects-page .project .title").css('width', titleWidth);
                 }
 
                 init();
 
                 // Events
-                $('.flip').on('change', function()
+                $('#content #projects-page .flip').on('change', function()
                 {
                     var id = $(this).attr('data-counter');
                     
@@ -157,6 +165,24 @@
                     }
                 });
 
+                $('#footer #report').click(function()
+                {
+                    $('#content #projects-page').hide();
+                    $(this).hide();
+                    $('#content #report-page').show();
+                    $('#footer #send').show();
+                    $('#footer #cancel').show();
+                });
+
+                $('#footer #cancel').click(function()
+                {
+                    $('#content #report-page').hide();
+                    $('#footer #send').hide();
+                    $(this).hide();
+                    $('#content #projects-page').show();
+                    $('#footer #report').show();
+                });
+
                 $(window).on('resize', function()
                 {
                     onResize();
@@ -172,9 +198,34 @@
             <h2 id="today"></h2>
         </div>
 
-        <div id="content" data-role="content"></div>
+        <div id="content" data-role="content">
+            <div id="projects-page"></div>
+            <div id="report-page">
+                <h3>Customise Report</h3>
+                <h3>FROM</h3>
+                <div class="clearfix">
+                    <input type="text" name="from-day" id="from-day" class="date-field" placeholder="D" />
+                    <input type="text" name="from-month" id="from-month" class="date-field" placeholder="M" />
+                    <input type="text" name="from-year" id="from-year" class="date-field" placeholder="Y" />
+                </div>
+                <h3>TO</h3>
+                <div class="clearfix">
+                    <input type="text" name="to-day" id="to-day" class="date-field" placeholder="D" />
+                    <input type="text" name="to-month" id="to-month" class="date-field" placeholder="M" />
+                    <input type="text" name="to-year" id="to-year" class="date-field" placeholder="Y" />
+                </div>
+                <h3>Email Address</h3>
+                <div class="clearfix">
+                    <input type="text" name="email" id="email-field" />
+                </div>
+            </div>
+        </div>
 
         <div id="footer">
+            <div id="report" class="button"><a href="javascript:void(0);">Create Report</a></div>
+            <div id="send" class="button"><a href="javascript:void(0);">Send</a></div>
+            <div id="cancel" class="button"><a href="javascript:void(0);">Cancel</a></div>
+
             <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- AndCounting -->
             <ins class="adsbygoogle andcounting"
