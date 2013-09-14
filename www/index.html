@@ -34,7 +34,7 @@
             $(document).ready(function()
             {
                 var totalProjects = 0;
-                var clock = new Array();
+                var clock = new Array(); // stores the time recorded
                 var timer = new Array();
                 var start = new Array();
                 var current = new Array();
@@ -42,9 +42,28 @@
                 function addProject()
                 {
                     totalProjects++;
+
+                    // Check if there's a project and time stored in this row
+                    var projectName = localStorage.getItem('title-'+totalProjects) || '';
+                    var projectTime = localStorage.getItem('counter-'+totalProjects);
+                    var projectTimeClock = localStorage.getItem('counter-'+totalProjects+'-clock');
+                    var projectTimeStart = localStorage.getItem('counter-'+totalProjects+'-start');
+
+                    if( projectTime )
+                    {
+                        clock[totalProjects] = Number(projectTimeClock);
+                        start[totalProjects] = Number(projectTimeStart);
+                    }
+                    else
+                    {
+                        projectTime = '000.00.00.00';
+                        clock[totalProjects] = null;
+                        start[totalProjects] = 0;
+                    }
+
                     var output = "<div class='project' id='project-"+totalProjects+"'> \
-                                    <input type='text' class='title' name='title-'"+totalProjects+"' id='title-"+totalProjects+"' placeholder='Tap to rename...' /> \
-                                    <div class='counter' id='counter-"+totalProjects+"'><span class='time'>000.00.00.00</span><span class='time-text'>Days&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins&nbsp;&nbsp;Secs</span></div> \
+                                    <input type='text' class='title' name='title-"+totalProjects+"' id='title-"+totalProjects+"' placeholder='Tap to rename...' value='"+projectName+"' /> \
+                                    <div class='counter' id='counter-"+totalProjects+"'><span class='time'>"+projectTime+"</span><span class='time-text'>Days&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins&nbsp;&nbsp;Secs</span></div> \
                                     <select name='flip-"+totalProjects+"' id='flip-"+totalProjects+"' data-counter='"+totalProjects+"' class='flip' data-role='slider'> \
                                         <option value='off'>OFF</option> \
                                         <option value='on'>ON</option> \
@@ -55,15 +74,14 @@
                     $("#content #projects-page #project-"+totalProjects).trigger("create");
                     onResize();
 
-                    clock[totalProjects] = 0;
-                    current[totalProjects] = 0;
                     timer[totalProjects] = null;
-                    start[totalProjects] = null;
+                    current[totalProjects] = 0;
                 }
 
+                // Initialise the app and create placeholders
                 function init()
                 {
-                    // Header clock
+                    // Header clock and report dates
                     var d = new Date();
                     var day = d.getDate()
                     if( day < 10 )
@@ -89,6 +107,7 @@
                     }
                 }
 
+                // Resize project's bar
                 function onResize()
                 {
                     var titleWidth = $("#content #projects-page").width() - $("#content #projects-page .counter").width() - $("#content #projects-page .flip").width() - 70;
@@ -97,7 +116,13 @@
 
                 init();
 
-                // Events
+                // Save the project name
+                $('#content #projects-page .title').on('change', function()
+                {
+                    localStorage.setItem(this.name, $(this).val());
+                });
+
+                // Update counters
                 $('#content #projects-page .flip').on('change', function()
                 {
                     var id = $(this).attr('data-counter');
@@ -162,6 +187,13 @@
                         clock[id] += current[id];
                         clearInterval( timer[id] );
                         timer[id] = null;
+
+                        console.log( clock[id], current[id], start[id]);
+
+                        // Save project's time
+                        localStorage.setItem('counter-'+id, $('#counter-'+id).find('.time').text());
+                        localStorage.setItem('counter-'+id+'-clock', clock[id]);
+                        localStorage.setItem('counter-'+id+'-start', start[id]);
                     }
                 });
 
@@ -236,7 +268,7 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
             <p>
-                <a href="#">Get AndCounting without ads for just 0.99$</a>
+                <a href="#">Get AndCounting without ads and unlimited counters for JUST <strike>3.99$</strike> 0.99$!</a>
             </p>
         </div>
 
