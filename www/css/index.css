@@ -39,6 +39,7 @@ body {
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#0c5d41;
     font-size:12px;
+    font-family: Helvetica,Arial,sans-serif;
     height:100%;
     margin:0px;
     padding:0px;
@@ -126,16 +127,12 @@ h2 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-.ui-page {
-    background: #0c5d41 !important;
-}
-
-.ui-content {
-    padding: 15px 5px !important;
-}
-
 #header #today {
     text-align: center;
+}
+
+#content .page {
+    padding: 15px 5px;
 }
 
 #content #projects-page .project,
@@ -144,48 +141,32 @@ h2 {
     border: 1px solid #555;
     -moz-border-radius: 8px;
     border-radius: 8px;
-    padding: 3px;
+    padding: 8px;
     margin-bottom: 5px;
-    height: 37px;
+    height: 25px;
     -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
     box-shadow: inset 0 0 10px rgba(0,0,0,.3);
 }
 
-#content #projects-page .project .ui-input-text {
-    margin-top: 1px;
+#content #projects-page .project .title {
+    margin: 4px 3px 3px 3px;
     float: left;
     background: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+    text-shadow: 0 1px 0 #fff;
     border: none;
     color: #333;
 }
 
-#content #projects-page .project .ui-slider-switch {
-    margin: 0;
-    margin-top: 2px;
-    margin-right: 10px;
-    float: right;
-}
-
-#content #projects-page .project .ui-btn-active {
-    background: #ff6600;
-    text-shadow: #333;
-    -webkit-box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
-    box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
-}
-
-#content #projects-page .project .ui-slider-label-b {
-    text-indent: 1.8em !important;
-}
-
 #content #projects-page .project .counter {
     float: right;
-    margin-top: 4px;
-    margin-right: 10px;
+    margin-top: -2px;
+    margin-right: 5px;
 }
 
 #content #projects-page .project .counter span {
+    text-shadow: 0 1px 0 #fff;
     text-transform: capitalize;
     display: block;
 }
@@ -204,7 +185,7 @@ h2 {
     display: none;
 }
 
-#content #report-page .ui-input-text {
+#content #report-page input {
     background: #2a6d56;
     border: none;
     -moz-border-radius: 0;
@@ -212,20 +193,16 @@ h2 {
     -webkit-box-shadow: none;
     box-shadow: none;
     float: left;
-    margin-right: 10px;
     text-align: center;
-}
 
-#content #report-page .ui-input-text input {
-    background: none;
     color: white;
     width: 40px;
     font-size: 3em;
-    margin: 0;
-    padding: 0 2px;
+    margin-right: 10px;
+    padding: 4px;
 }
 
-#content #report-page .ui-input-text #email-field {
+#content #report-page #email-field {
     width: 100%;
     font-size: 1.8em;
     padding: 6px;
@@ -249,7 +226,7 @@ h2 {
 
 #footer #send,
 #footer #cancel {
-    width: 46%;
+    width: 44%;
     float: left;
     display: none;
 }
@@ -259,7 +236,6 @@ h2 {
 }
 
 #footer div a {
-    padding-top: 5px;
     text-decoration: none;
     width: 100%;
     display: block;
@@ -277,6 +253,130 @@ h2 {
     text-shadow: none
 }
 
+
+/* Toggle switch */
+.ts-track {
+    background-position: -102px 0px;
+    background-repeat: no-repeat;
+    height: 54px;
+    width: 152px;
+    border-radius: 52px;
+    overflow: hidden;
+    padding: 0 1px;
+    border-right: 1px solid #999;
+    display: inline-block;
+
+    font-family: arial;
+    font-weight: bold;
+
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ts-track, .ts-track .ts-switch-container {
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+}
+
+.ts-track.no-transition, .ts-track.no-transition .ts-switch-container {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+.ts-track .ts-on-text, .ts-track .ts-off-text {
+    position: absolute;
+    font-size: 25px;
+    margin-top: 13px;
+    display:inline-block;
+    text-align: center;
+    width: 54px;
+    line-height: 1.3;
+}
+
+.ts-track .ts-on-text {
+    color: #FFF;
+    left: 0px;
+    text-shadow: 1px 1px 1px #666;
+}
+
+.ts-track .ts-off-text {
+    color: #7d7d7d;
+    right: -10px;
+    text-shadow: 1px 1px 1px #999;
+}
+
+.ts-track .ts-switch-container {
+    position: relative;
+    margin-left: -67px;
+    width: 171px;
+}
+
+.ts-track .ts-switch {
+    background: url('../img/switch.png') no-repeat;
+    height: 55px;
+    width: 55px;
+    position: absolute;
+    left: 37px;
+    display: inline-block;
+    margin-left: 28px;
+    margin-right: 24px;
+    cursor: pointer;
+}
+
+.ts-track input[type="checkbox"] {
+    display: none;
+}
+
+/* orange */
+
+.ts-track.orange {
+    background-image: url('../img/orange_track.png');
+}
+
+.ts-track.orange.small {
+    background-image: url('../img/orange_track_small.png');
+}
+
+/* Small */
+
+.ts-track.small {
+    background-position: -51px 0px;
+    height: 27px;
+    width: 75px;
+    border-radius: 26px;
+}
+
+.ts-track.small .ts-switch {
+    background-image: url('../img/switch_small.png');
+    height: 28px;
+    width: 28px;
+    left: 17px;
+    margin: 0 17px;
+}
+
+.ts-track.small .ts-switch-container {
+    margin-left: -35px;
+    width: 85px;
+}
+
+.ts-track.small .ts-off-text {
+    right: -9px;
+}
+
+.ts-track.small .ts-on-text, .ts-track.small .ts-off-text {
+    font-size: 13px;
+    margin-top: 6px;
+    width: 28px;
+}
+
+
 @media(min-width: 500px) {
     .andcounting {
         width: 468px;
@@ -287,7 +387,7 @@ h2 {
         margin: 0 15px;
     }
 
-    .ui-content {
+    #content .page {
         padding: 15px !important;
     }
 }
