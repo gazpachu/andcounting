@@ -218,7 +218,7 @@
                         var projectName = $(this).find('.title').val();
                         var projectTime = $(this).find('.time').text();
 
-                        if( projectName ) body += projectName + ": " + projectTime + "%0D%0A";
+                        if( projectName ) body += escape(projectName) + ": " + projectTime + "%0D%0A";
                     });
 
                     var email = "mailto:?subject=AndCounting Report from " + from + " until " + to + "&body=" + body;
