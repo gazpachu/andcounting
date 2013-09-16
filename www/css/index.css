@@ -130,12 +130,14 @@ h2 {
     height: 25px;
     -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
     box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+    position: relative;
 }
 
 #content #projects-page .project .title {
     margin: 4px 3px 3px 3px;
     float: left;
     background: none;
+    outline: none;
     -webkit-box-shadow: none;
     box-shadow: none;
     text-shadow: 0 1px 0 #fff;

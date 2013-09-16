@@ -10,6 +10,7 @@
         <script src="js/jquery-1.10.2.min.js"></script>
         <script src="js/toggleswitch.js"></script>
         <script src="js/fastclick.min.js"></script>
+        <script src="js/swipe.js"></script>
         <script>
 
             $(document).ready(function()
@@ -43,7 +44,7 @@
                         start[totalProjects] = 0;
                     }
 
-                    var output = "<div class='project' id='project-"+totalProjects+"'> \
+                    var output = "<div class='project' id='project-"+totalProjects+"' ontouchstart='touchStart(event,\"project-"+totalProjects+"\");'  ontouchend='touchEnd(event);' ontouchmove='touchMove(event);' ontouchcancel='touchCancel(event);'> \
                                     <input type='text' class='title' name='title-"+totalProjects+"' id='title-"+totalProjects+"' placeholder='Tap to rename...' value='"+projectName+"' /> \
                                     <div class='counter' id='counter-"+totalProjects+"'><span class='time'>"+projectTime+"</span><span class='time-text'>Days&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins&nbsp;&nbsp;Secs</span></div> \
                                     <div class='flip-wrapper'><input type='checkbox' name='flip-"+totalProjects+"' id='flip-"+totalProjects+"' data-counter='"+totalProjects+"' class='flip small orange' /></div> \
