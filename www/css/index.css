@@ -134,6 +134,14 @@ h2 {
     position: relative;
 }
 
+#content #projects-page .project {
+    -webkit-transform: translate3d(0px,0px,0px);
+    -moz-transform: translate3d(0px,0px,0px);
+    -o-transform: translate3d(0px,0px,0px);
+    -ms-transform: translate3d(0px,0px,0px);
+    transform: translate3d(0px,0px,0px);
+}
+
 #content #projects-page .project .title {
     margin: 4px 3px 3px 3px;
     float: left;
