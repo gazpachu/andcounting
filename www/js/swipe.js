@@ -115,23 +115,19 @@ function determineSwipeDirection() {
 
 function processingRoutine() {
 	var swipedElement = document.getElementById(triggerElementID);
+	var x = 0;
+
 	if ( swipeDirection == 'left' )
 	{
 		// REPLACE WITH YOUR ROUTINES
 		//swipedElement.style.backgroundColor = 'orange';
-		$('#'+triggerElementID).animate({ left: -$(window).width() }, function()
-			{
-				$(this).remove();
-			});
+		x = -$(window).width();
 	}
 	else if ( swipeDirection == 'right' )
 	{
 		// REPLACE WITH YOUR ROUTINES
 		//swipedElement.style.backgroundColor = 'green';
-		$('#'+triggerElementID).animate({ left: $(window).width() }, function()
-			{
-				$(this).remove();
-			});
+		x = $(window).width();
 	} /*else if ( swipeDirection == 'up' ) {
 		// REPLACE WITH YOUR ROUTINES
 		swipedElement.style.backgroundColor = 'maroon';
@@ -139,4 +135,20 @@ function processingRoutine() {
 		// REPLACE WITH YOUR ROUTINES
 		swipedElement.style.backgroundColor = 'purple';
 	}*/
+
+	if( x != 0 )
+	{
+		$('#'+triggerElementID).css('left', x);
+		$('#'+triggerElementID).css('backgroundColor', '#FC7616');
+		$('#'+triggerElementID).css({'-webkit-transition': 'all 1s ease-in-out',
+  										'-moz-transition': 'all 1s ease-in-out',
+  										'-o-transition': 'all 1s ease-in-out',
+  										'transition': 'all 1s ease-in-out'
+		});
+
+		$('#'+triggerElementID).bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function()
+        {
+            $(this).remove();
+        });
+	}
 }
